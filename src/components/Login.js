@@ -9,11 +9,10 @@ export default function LogIn() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const history = useHistory();
-  const { logIn } = useAuth();
+  const { logIn, logInWithGoogle, Providers } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
       setError("");
       setLoading(true);
@@ -22,7 +21,18 @@ export default function LogIn() {
     } catch {
       setError("Failed to sign in");
     }
+    setLoading(false);
+  };
 
+  const handleLogInWithMedia = async (provider) => {
+    try {
+      setError("");
+      setLoading(true);
+      await logInWithGoogle(provider);
+      history.push("/");
+    } catch {
+      setError("Failed to sign in");
+    }
     setLoading(false);
   };
 
@@ -44,6 +54,30 @@ export default function LogIn() {
 
             <Button disabled={loading} type="submit" className="w-100">
               Log In
+            </Button>
+
+            <Button
+              className="w-100 mt-2 "
+              variant="danger"
+              onClick={() => handleLogInWithMedia(Providers.google)}
+            >
+              Log in with google
+            </Button>
+
+            <Button
+              className="w-100 mt-2 "
+              variant="info"
+              onClick={() => handleLogInWithMedia(Providers.facebook)}
+            >
+              Log in with facebook
+            </Button>
+
+            <Button
+              variant="dark"
+              className="w-100 mt-2 "
+              onClick={() => handleLogInWithMedia(Providers.github)}
+            >
+              Log in with github
             </Button>
           </Form>
           <div className="w-100 text-center mt-3">

@@ -1,5 +1,10 @@
 import React, { useContext, useState, useEffect } from "react";
-import { auth } from "../firebase";
+import {
+  auth,
+  googleProvider,
+  facebookProvider,
+  githubProvider,
+} from "../firebase";
 const AuthContext = React.createContext({});
 
 export const useAuth = () => {
@@ -9,6 +14,16 @@ export const useAuth = () => {
 export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState();
   const [loading, setLoading] = useState(true);
+
+  const Providers = {
+    google: googleProvider,
+    facebook: facebookProvider,
+    github: githubProvider,
+  };
+
+  const logInWithGoogle = (provider) => {
+    return auth.signInWithPopup(provider);
+  };
 
   const logIn = (email, password) => {
     return auth.signInWithEmailAndPassword(email, password);
@@ -51,6 +66,8 @@ export function AuthProvider({ children }) {
     resetPassword,
     updateEmail,
     updatePassword,
+    logInWithGoogle,
+    Providers,
   };
   return (
     <AuthContext.Provider value={value}>
