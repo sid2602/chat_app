@@ -6,7 +6,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Dashboard from "./Dashboard";
 import LogIn from "./Login";
 import ForgotPassword from "./ForgotPassword";
-import UpdateProfile from "./UpdateProfile";
+import ChatRoom from "./ChatRoom";
 function App() {
   return (
     <Container
@@ -18,11 +18,7 @@ function App() {
           <AuthProvider>
             <Switch>
               <PrivateRoute exact path="/" component={Dashboard} />
-              <PrivateRoute
-                exact
-                path="/update-profile"
-                component={UpdateProfile}
-              />
+              <PrivateRoute exact path="/chatRoom/:id" component={ChatRoom} />
               <Route path="/signup" component={SignUp} />
               <Route path="/login" component={LogIn} />
               <Route path="/forgot-password" component={ForgotPassword} />
